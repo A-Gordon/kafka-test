@@ -18,7 +18,7 @@ spec:
         app: kafka-producer
     spec:
       containers:
-      - image: agordon/kafka-test:0.0.3
+      - image: agordon/kafka-test:0.0.4
         name: kafka-test-consumer
         resources: {}
         imagePullPolicy: Always

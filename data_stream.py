@@ -64,7 +64,9 @@ def createProducer(kafkaBootstrapServers):
     return KafkaProducer(bootstrap_servers=[kafkaBootstrapServers],
                           value_serializer=lambda x: dumps(x).encode('utf-8'),
                           client_id='test-client',
-                          acks='all')
+                          acks='all',
+                          retries=3,
+                          max_in_flight_requests_per_connection=1)
   except KeyError as e:
     logger.error('Missing setting named ' + str(e),
                         {'ex': traceback.format_exc()})

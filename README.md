@@ -41,16 +41,21 @@ sudo install minikube-darwin-amd64 /usr/local/bin/minikube
 ```
 
 ### Instructions
+
+The instructions below assume that you want to deploy kafka and mongodb aswell as the application, if that is not the case and you wish to integrate either kafka or mongodb from elsewhere that is possible. Feel free to ignore the respective instructions for the service that you wish to manage yourself. 
+
 Start minikube
 ```
 minikube start
 ```
 
 Kafka and Mongodb installed via helm
+If you change the name of either of the helm releases or the Kubernetes namespace then you will need to change the values further along in the deployment. 
+This example uses the names kafka and mongodb for the respective services and is deployed into the default namespace. 
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install kafka bitnami/kafka
-helm install mongodb bitnami/mongodb
+helm install kafka bitnami/kafka --namespace=default
+helm install mongodb bitnami/mongodb --namespace=default
 ```
 
 The helm charts will detail how to retrieve the connection details when you deploy. 
@@ -63,7 +68,7 @@ kubectl create secret generic mongodb-uri --from-literal=MONGODB_URI="mongodb://
 
 ```
 
-Alternatively you can define the connection details as environment variables like so 
+Alternatively you can define the connection details as environment variables like so.
 
 ```
   - name: KAFKA_BOOTSTRAP_BROKER
@@ -103,3 +108,24 @@ kubectl apply -f kafka-producer-deploy.yaml
 At this stage you should have a working kafka cluster, mongodb cluster and two pods, the producer and consumer respectively. 
 
 For the purpose of this assessment I have purposefully kept mongo and kafka as simple as possible and they are deployed in a single node instance. 
+
+To verify the installation you can check that all the pods are running successfully. 
+```
+kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+kafka-0                           1/1     Running   0          23h
+kafka-client                      1/1     Running   0          24h
+kafka-consumer-5577dffb7d-mr4v5   1/1     Running   0          18m
+kafka-producer-747488775d-7kpq5   1/1     Running   0          18m
+kafka-zookeeper-0                 1/1     Running   0          23h
+mongodb-f49679fc5-8fq4p           1/1     Running   0          10m
+```
+
+To iew the logs of the applications
+```
+CONSUMER_POD=$(kubectl get pods --field-selector=status.phase=Running -l app=kafka-consumer -o jsonpath='{.items[*].metadata.name}'); kubectl logs $CONSUMER_POD
+```
+
+```
+PRODUCER_POD=$(kubectl get pods --field-selector=status.phase=Running -l app=kafka-producer -o jsonpath='{.items[*].metadata.name}'); kubectl logs $PRODUCER_POD
+```

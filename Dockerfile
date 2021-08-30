@@ -1,7 +1,5 @@
 FROM python:3.8.11
 RUN groupadd -r appuser && useradd --no-log-init -r -g appuser appuser
-RUN apt-get update \
-    &&  apt-get install -y vim
 WORKDIR /usr/src/app
 COPY . .
 RUN pip install -r requirements.txt

@@ -29,8 +29,6 @@ spec:
             value: "5"
           - name: KAFKA_BOOTSTRAP_BROKER
             value: "kafka.default.svc.cluster.local:9092"
-          # - name: MONGODB_URI 
-          #   value: "mongodb://root:SHJVYaSjn1@mongodb:27017"
           - name: KAFKA_TOPIC
             value: "testing"
           - name: KAFKA_GROUP
