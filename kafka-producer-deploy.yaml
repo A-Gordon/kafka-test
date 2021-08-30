@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kafka-producer
+  name: kafka-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+      - image: agordon/kafka-test:0.0.3
+        name: kafka-test-consumer
+        resources: {}
+        imagePullPolicy: Always
+        env:
+          - name: FUNCTION
+            value: producer
+          - name: TIME_INTERVAL 
+            value: "5"
+          - name: KAFKA_BOOTSTRAP_BROKER
+            value: "kafka-0.kafka-headless.default.svc.cluster.local:9092"
+          - name: KAFKA_TOPIC
+            value: "testing"
+          - name: KAFKA_GROUP
+            value: "my-group"

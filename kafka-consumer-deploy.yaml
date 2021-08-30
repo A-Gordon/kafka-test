@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kafka-consumer
+  name: kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+      - image: agordon/kafka-test:0.0.4
+        name: kafka-consumer
+        resources: {}
+        imagePullPolicy: Always
+        env:
+          - name: FUNCTION
+            value: consumer
+          - name: TIME_INTERVAL 
+            value: "5"
+          - name: KAFKA_BOOTSTRAP_BROKER
+            value: "kafka.default.svc.cluster.local:9092"
+          # - name: MONGODB_URI 
+          #   value: "mongodb://root:SHJVYaSjn1@mongodb:27017"
+          - name: KAFKA_TOPIC
+            value: "testing"
+          - name: KAFKA_GROUP
+            value: "my-group"
+        envFrom:
+          - secretRef:
+              name: mongodb-uri
+      volumes:
+        - name: mongodb-uri
+          secret:
+            secretName: mongodb-uri
