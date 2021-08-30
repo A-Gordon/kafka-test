@@ -1,4 +1,4 @@
-# Schiphol data assessment
+# Kafka data assessment
 
 ## Build
 I built the container locally and pushed to my docker hub repo, it is publicly available so you can pull directly from there or you can build it yourself with
