@@ -4,7 +4,7 @@
 I built the container locally and pushed to my docker hub repo, it is publicly available so you can pull directly from there or you can build it yourself with
 
 ```
-docker build -t agordon/kafka-test:0.0.3 .
+docker build -t ${repo}/${container_name}:${version} .
 ```
 
 ## Deployment
@@ -50,6 +50,7 @@ minikube start
 ```
 
 Kafka and Mongodb installed via helm
+
 If you change the name of either of the helm releases or the Kubernetes namespace then you will need to change the values further along in the deployment. 
 This example uses the names kafka and mongodb for the respective services and is deployed into the default namespace. 
 ```
@@ -81,7 +82,7 @@ Configure the kafka and mongodb connection details in the yaml files.
 
 kafka-producer-deploy.yaml
 
-The producer connects directly to the brokers and has no need for mongodb credentials, it is already configured with the correct broker name. Change this if  you are using a different kafka instance. 
+The producer connects directly to the brokers and has no need for mongodb credentials, it is already configured with the correct broker name. Change this if  you are using a different kafka instance or namespace. 
 ``` 
   - name: KAFKA_BOOTSTRAP_BROKER
     value: "kafka-0.kafka-headless.default.svc.cluster.local:9092"
