@@ -11,9 +11,9 @@ docker build -t ${repo}/${container_name}:${version} .
 I deployed this locally on a Mac using minikube, the installation may differ on different devices. 
 
 ### Requirements
-* Helm
-* Minikube
-* Kubectl 
+* Helm (https://helm.sh/docs/intro/install/)
+* Minikube (https://minikube.sigs.k8s.io/docs/start/)
+* Kubectl (https://kubernetes.io/docs/tasks/tools/)
 
 
 ### Versions
@@ -39,6 +39,8 @@ Assuming you dont have minikube
 curl -LO https://storage.googleapis.com/minikube/releases/v1.22.0/minikube-darwin-amd64
 sudo install minikube-darwin-amd64 /usr/local/bin/minikube
 ```
+
+
 
 ### Instructions
 
